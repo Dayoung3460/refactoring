@@ -13,6 +13,7 @@ function statement(invoice, plays) {
   
   
   for(let perf of invoice.performance) {
+    volumeCredits += volumeCreditsFor(perf)
     function playFor(perf) {
       return plays[perf.playID]
     }
@@ -40,10 +41,19 @@ function statement(invoice, plays) {
       return result
     }
 
-    //  accumulate points
-    volumeCredits += Math.max(perf.audience - 30, 0)
-    // extra points for comedy audience
-    if('comedy' === playFor(perf).type) volumeCredits += Math.floor(perf.audience / 5)
+    function volumeCreditsFor(perf) {
+      let result = 0
+      //  accumulate points
+      result += Math.max(perf.audience - 30, 0)
+      // extra points for comedy audience
+      if('comedy' === playFor(perf).type) result += Math.floor(perf.audience / 5)
+
+      return result
+    }
+
+
+
+
 
     // print payment statement
     result += `   ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${perf.audience} seats)\n`
