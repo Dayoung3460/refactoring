@@ -10,8 +10,6 @@ function statement(invoice, plays) {
     {style: 'currency', currency: "USD",
     minimumFractionDigits: 2}).format
 
-  
-  
   for(let perf of invoice.performance) {
     volumeCredits += volumeCreditsFor(perf)
     function playFor(perf) {
@@ -41,21 +39,14 @@ function statement(invoice, plays) {
       return result
     }
 
-    function volumeCreditsFor(perf) {
+    function volumeCreditsFor(aPerformance) {
       let result = 0
-      //  accumulate points
-      result += Math.max(perf.audience - 30, 0)
-      // extra points for comedy audience
-      if('comedy' === playFor(perf).type) result += Math.floor(perf.audience / 5)
+      result += Math.max(aPerformance.audience - 30, 0)
+      if('comedy' === playFor(aPerformance).type) result += Math.floor(aPerformance.audience / 5)
 
       return result
     }
 
-
-
-
-
-    // print payment statement
     result += `   ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${perf.audience} seats)\n`
     totalAmount += amountFor(perf)
 
@@ -66,7 +57,5 @@ function statement(invoice, plays) {
 
   return result
 }
-
-
 
 console.log(statement(invoices[0], plays))
