@@ -13,7 +13,9 @@ function statement(invoice, plays) {
         minimumFractionDigits: 2}).format(aNumber / 100)
   }
 
-  for(let perf of invoice.performance) {
+  for(let perf of invoice.performances) {
+
+
     volumeCredits += volumeCreditsFor(perf)
     function playFor(perf) {
       return plays[perf.playID]
