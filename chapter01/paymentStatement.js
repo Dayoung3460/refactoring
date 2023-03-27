@@ -7,10 +7,10 @@ function statement(invoice, plays) {
   let volumeCredits = 0
   let result = `payment statement (customer: ${invoice.customer})\n`
 
-  function format(aNumber) {
+  function usd(aNumber) {
     return new Intl.NumberFormat("en-US",
       {style: 'currency', currency: "USD",
-        minimumFractionDigits: 2}).format(aNumber)
+        minimumFractionDigits: 2}).format(aNumber / 100)
   }
 
   for(let perf of invoice.performance) {
@@ -50,12 +50,12 @@ function statement(invoice, plays) {
       return result
     }
 
-    result += `   ${playFor(perf).name}: ${format(amountFor(perf) / 100)} (${perf.audience} seats)\n`
+    result += `   ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`
     totalAmount += amountFor(perf)
 
   }
 
-  result += `total: ${format(totalAmount / 100)}\n`
+  result += `total: ${usd(totalAmount)}\n`
   result += `point: ${volumeCredits}\n`
 
   return result
